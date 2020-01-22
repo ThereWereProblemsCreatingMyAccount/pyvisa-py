@@ -145,7 +145,7 @@ class USBSession(Session):
 
         return count, StatusCode.success
 
-    def control_transfer(self, request_type_bitmap_field, request_id, request_value, index, length):
+    def control_transfer(self, request_type_bitmap_field, request_id, request_value = 0, index = 0, data_or_wLength = None):
         """Performs a USB control pipe transfer from the device.
         :param request_type_bitmap_field: bmRequestType parameter of the setup stage of a USB control transfer.
         :param request_id: bRequest parameter of the setup stage of a USB control transfer.
@@ -161,7 +161,7 @@ class USBSession(Session):
                 - :class:`pyvisa.constants.StatusCode`
         """
         ret_val = self.interface.control_transfer(request_type_bitmap_field, request_id, 
-                                                request_value, index, length)
+                                                request_value, index, data_or_wLength)
         return ret_val, StatusCode.success
 
     def close(self):
@@ -221,7 +221,9 @@ class USBInstrSession(USBSession):
         print('list_resources USBInstrSession')
         out = []
         fmt = 'USB%(board)s::%(manufacturer_id)#06x::%(model_code)#06x::' \
-              '%(serial_number)s::%(usb_interface_number)s::INSTR'
+              '%(serial_number)s::' \
+              'INSTR'
+               # '%(usb_interface_number)s::' \
         for dev in usbtmc.find_tmc_devices():
             intfc = usbutil.find_interfaces(dev, bInterfaceClass=0xfe,
                                             bInterfaceSubClass=3)
@@ -264,7 +266,9 @@ class USBRawSession(USBSession):
         print('list_resources USBRawSession')
         out = []
         fmt = 'USB%(board)s::%(manufacturer_id)#06x::%(model_code)#06x::' \
-              '%(serial_number)s::%(usb_interface_number)s::RAW'
+              '%(serial_number)s::' \
+              'RAW'
+              #'%(usb_interface_number)s::' \
         for dev in usbraw.find_raw_devices():
             # print('list_resources loop')
             #print(repr(dev))
