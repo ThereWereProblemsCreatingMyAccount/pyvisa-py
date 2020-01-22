@@ -53,6 +53,7 @@ class TCPIPInstrSession(Session):
 
     @staticmethod
     def list_resources():
+        print('list_resources TCPIPInstrSession')
         # TODO: is there a way to get this?
         return []
 
@@ -361,6 +362,7 @@ class TCPIPSocketSession(Session):
     @staticmethod
     def list_resources():
         # TODO: is there a way to get this?
+        print('list_resources TCPIPSocketSession')
         return []
 
     def after_parsing(self):

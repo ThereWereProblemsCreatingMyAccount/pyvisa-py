@@ -59,6 +59,7 @@ class USBSession(Session):
     @staticmethod
     def list_resources():
         """Return list of resources for this type of USB device"""
+        print('list_resources USBSession')
         raise NotImplementedError
 
     @classmethod
@@ -144,6 +145,25 @@ class USBSession(Session):
 
         return count, StatusCode.success
 
+    def control_transfer(self, request_type_bitmap_field, request_id, request_value, index, length):
+        """Performs a USB control pipe transfer from the device.
+        :param request_type_bitmap_field: bmRequestType parameter of the setup stage of a USB control transfer.
+        :param request_id: bRequest parameter of the setup stage of a USB control transfer.
+        :param request_value: wValue parameter of the setup stage of a USB control transfer.
+        :param index: wIndex parameter of the setup stage of a USB control transfer.
+                      This is usually the index of the interface or endpoint.
+        :param length: wLength parameter of the setup stage of a USB control transfer.
+                       This value also specifies the size of the data buffer to receive the data from the
+                       optional data stage of the control transfer.
+        :return: - The data buffer that receives the data from the optional data stage of the control transfer
+                 - return value of the library call.
+        :rtype: - bytes
+                - :class:`pyvisa.constants.StatusCode`
+        """
+        ret_val = self.interface.control_transfer(request_type_bitmap_field, request_id, 
+                                                request_value, index, length)
+        return ret_val, StatusCode.success
+
     def close(self):
         self.interface.close()
 
@@ -198,6 +218,7 @@ class USBInstrSession(USBSession):
 
     @staticmethod
     def list_resources():
+        print('list_resources USBInstrSession')
         out = []
         fmt = 'USB%(board)s::%(manufacturer_id)s::%(model_code)s::' \
               '%(serial_number)s::%(usb_interface_number)s::INSTR'
@@ -240,10 +261,13 @@ class USBRawSession(USBSession):
 
     @staticmethod
     def list_resources():
+        print('list_resources USBRawSession')
         out = []
         fmt = 'USB%(board)s::%(manufacturer_id)s::%(model_code)s::' \
               '%(serial_number)s::%(usb_interface_number)s::RAW'
         for dev in usbraw.find_raw_devices():
+            # print('list_resources loop')
+            #print(repr(dev))
             intfc = usbutil.find_interfaces(dev, bInterfaceClass=0xFF)
             try:
                 intfc = intfc[0].index
@@ -261,10 +285,12 @@ class USBRawSession(USBSession):
                                          serial_number='???',
                                          usb_interface_number=intfc))
                 continue
-
+            #print("OK")
             out.append(fmt % dict(board=0,
                                   manufacturer_id=dev.idVendor,
                                   model_code=dev.idProduct,
                                   serial_number=serial,
                                   usb_interface_number=intfc))
+        # for d in out:
+        #     print( repr(d))
         return out

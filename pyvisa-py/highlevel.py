@@ -375,6 +375,7 @@ class PyVisaLibrary(highlevel.VisaLibraryBase):
 
         # For each session type, ask for the list of connected resources and
         # merge them into a single list.
+        print('list_resources PyVisaLibrary')
 
         resources = sum([st.list_resources()
                          for key, st in sessions.Session.iter_valid_session_classes()], [])

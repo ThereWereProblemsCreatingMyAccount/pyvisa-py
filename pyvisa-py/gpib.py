@@ -509,6 +509,8 @@ class GPIBSession(_GPIBCommon, Session):
 
     @staticmethod
     def list_resources():
+        print('list_resources GPIBSession')
+
         return ['GPIB%d::%d::INSTR' % (board, pad) for board, pad in _find_listeners()]
 
     def clear(self):
@@ -635,6 +637,7 @@ class GPIBInterface(_GPIBCommon, Session):
 
     @staticmethod
     def list_resources():
+        print('list_resources GPIBInterface')
         return ['GPIB%d::INTFC' % board for board, pad in _find_boards()]
 
     def gpib_command(self, command_bytes):

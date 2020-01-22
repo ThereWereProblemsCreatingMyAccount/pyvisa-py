@@ -45,6 +45,7 @@ class SerialSession(Session):
 
     @staticmethod
     def list_resources():
+        print('list_resources SerialSession')
         return ['ASRL%s::INSTR' % port[0] for port in comports()]
 
     @classmethod

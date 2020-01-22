@@ -28,10 +28,14 @@ def find_raw_devices(vendor=None, product=None, serial_number=None,
     def is_usbraw(dev):
         if custom_match and not custom_match(dev):
             return False
-        return bool(find_interfaces(dev, bInterfaceClass=0xFF,
-                                    bInterfaceSubClass=0xFF))
+        ifs = find_interfaces(dev, bInterfaceClass=0xFF,
+                                    bInterfaceSubClass=0x00)
+        return bool(ifs)
 
-    return find_devices(vendor, product, serial_number, is_usbraw, **kwargs)
+    devs = find_devices(vendor, product, serial_number, is_usbraw, **kwargs)
+    # for d in devs:
+    #    print( repr(d))
+    return devs
 
 
 class USBRawDevice(USBRaw):
