@@ -220,7 +220,7 @@ class USBInstrSession(USBSession):
     def list_resources():
         print('list_resources USBInstrSession')
         out = []
-        fmt = 'USB%(board)s::%(manufacturer_id)s::%(model_code)s::' \
+        fmt = 'USB%(board)s::%(manufacturer_id)#06x::%(model_code)#06x::' \
               '%(serial_number)s::%(usb_interface_number)s::INSTR'
         for dev in usbtmc.find_tmc_devices():
             intfc = usbutil.find_interfaces(dev, bInterfaceClass=0xfe,
@@ -263,7 +263,7 @@ class USBRawSession(USBSession):
     def list_resources():
         print('list_resources USBRawSession')
         out = []
-        fmt = 'USB%(board)s::%(manufacturer_id)s::%(model_code)s::' \
+        fmt = 'USB%(board)s::%(manufacturer_id)#06x::%(model_code)#06x::' \
               '%(serial_number)s::%(usb_interface_number)s::RAW'
         for dev in usbraw.find_raw_devices():
             # print('list_resources loop')
