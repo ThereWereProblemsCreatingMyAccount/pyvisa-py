@@ -59,7 +59,6 @@ class USBSession(Session):
     @staticmethod
     def list_resources():
         """Return list of resources for this type of USB device"""
-        print('list_resources USBSession')
         raise NotImplementedError
 
     @classmethod
@@ -218,7 +217,6 @@ class USBInstrSession(USBSession):
 
     @staticmethod
     def list_resources():
-        print('list_resources USBInstrSession')
         out = []
         fmt = 'USB%(board)s::%(manufacturer_id)#06x::%(model_code)#06x::' \
               '%(serial_number)s::' \
@@ -263,7 +261,6 @@ class USBRawSession(USBSession):
 
     @staticmethod
     def list_resources():
-        print('list_resources USBRawSession')
         out = []
         fmt = 'USB%(board)s::%(manufacturer_id)#06x::%(model_code)#06x::' \
               '%(serial_number)s::' \
