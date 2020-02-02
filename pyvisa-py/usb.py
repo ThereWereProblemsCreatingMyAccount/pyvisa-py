@@ -161,7 +161,7 @@ class USBSession(Session):
         """
         ret_val = self.interface.control_transfer(request_type_bitmap_field, request_id, 
                                                 request_value, index, data_or_wLength)
-        return ret_val, StatusCode.success
+        return bytes(ret_val), StatusCode.success
 
     def close(self):
         self.interface.close()
